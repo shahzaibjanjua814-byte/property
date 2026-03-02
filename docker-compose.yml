@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: real-estate-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:3001
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: real-estate-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_HOST=216.106.180.123
+      - DB_USER=webdevco_realuser
+      - DB_PASSWORD=adeel@490A
+      - DB_NAME=webdevco_real
+      - JWT_SECRET=aura_home_secret_key_2024
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+
+volumes:
+  frontend_node:
+  backend_node:
+
+networks:
+  default:
+    name: real-estate-network

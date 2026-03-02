@@ -1,0 +1,13 @@
+{
+  "name": "real-estate-monorepo",
+  "description": "Real Estate Platform - Frontend + Backend Monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "docker-compose up",
+    "dev:down": "docker-compose down",
+    "dev:rebuild": "docker-compose up --build"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
